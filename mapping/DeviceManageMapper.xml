@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfp.online_confirm_tool_pro.mapper.DeviceManageMapper">
+    <resultMap id="DeviceManage" type="com.sfp.online_confirm_tool_pro.entity.DcuTable">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+        <result column="port" jdbcType="INTEGER" property="port" />
+        <result column="time" jdbcType="VARCHAR" property="time" />
+        <result column="dcu_no" jdbcType="VARCHAR" property="dcu_no" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="lat_t" jdbcType="VARCHAR" property="lat_t" />
+        <result column="lng_t" jdbcType="VARCHAR" property="lng_t" />
+        <result column="lng" jdbcType="VARCHAR" property="lng" />
+        <result column="lat" jdbcType="VARCHAR" property="lat" />
+        <result column="last_dcu_id" jdbcType="DECIMAL" property="last_dcu_id" />
+        <result column="next_dcu_id" jdbcType="DECIMAL" property="next_dcu_id" />
+        <result column="diff_threshold" jdbcType="DECIMAL" property="diff_threshold" />
+        <result column="next_dcu_diff" jdbcType="DECIMAL" property="next_dcu_diff" />
+        <result column="last_dcu_diff" jdbcType="DECIMAL" property="last_dcu_diff" />
+        <result column="diff_point" jdbcType="INTEGER" property="diff_point" />
+        <result column="gdj_id" jdbcType="INTEGER" property="gdj_id" />
+        <result column="dlx_id" jdbcType="INTEGER" property="dlx_id" />
+        <result column="bdz_id" jdbcType="INTEGER" property="bdz_id" />
+        <result column="dstatus" jdbcType="INTEGER" property="dstatus" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="createdate" jdbcType="VARCHAR" property="createdate" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="modifydate" jdbcType="VARCHAR" property="modifydate" />
+        <result column="auto_get_recorder" jdbcType="INTEGER" property="auto_get_recorder" />
+        <result column="pole_num" jdbcType="DECIMAL" property="pole_num" />
+        <result column="dcu_type" jdbcType="INTEGER" property="dcu_type" />
+        <result column="temp" jdbcType="INTEGER" property="temp" />
+        <result column="current" jdbcType="INTEGER" property="current" />
+        <result column="direction" jdbcType="INTEGER" property="direction" />
+        <result column="channel" jdbcType="VARCHAR" property="channel" />
+    </resultMap>
+
+    <insert id="insertDevice" parameterType="com.sfp.online_confirm_tool_pro.entity.DcuTable">
+        INSERT INTO dcu (
+            ip
+            ,`port`
+            ,`time`
+            ,dcu_no
+            ,address
+            ,gdj_id
+            ,dlx_id
+            ,bdz_id
+            ,dstatus
+            ,remark
+            ,lat_t
+            ,lng_t
+            ,lng
+            ,lat
+            ,last_dcu_id
+            ,next_dcu_id
+            ,diff_threshold
+            ,next_dcu_diff
+            ,last_dcu_diff
+            ,diff_point
+            ,creator
+            ,createdate
+            ,modifier
+            ,modifydate
+            ,auto_get_recorder
+            ,pole_num
+            ,dcu_type
+            ,temp
+            ,`current`
+            ,direction
+            ,channel
+        )VALUES
+        <foreach collection="list" item="rec" separator=",">
+            (
+                #{rec.ip}
+                ,#{rec.port}
+                ,NOW()
+                ,#{rec.dcu_no}
+                ,#{rec.address}
+                ,100,102,101
+                ,1,0,0,0,0,0,null,null,500,0,0,500
+                ,'d3d27be8fb1b4fc3bab6ca6bf890717c'
+                ,NOW()
+                ,'d3d27be8fb1b4fc3bab6ca6bf890717c'
+                ,NOW()
+                ,#{rec.auto_get_recorder}
+                ,1,1,0,1,1,null
+            )
+        </foreach>
+    </insert>
+
+    <select id="isExistByDcuIp" parameterType="String" resultType="java.lang.Boolean">
+        SELECT IF(count(*) = 0, false, true) FROM `dcu` WHERE ip = #{ip}
+    </select>
+
+    <select id="isExistByDcuNo" parameterType="String" resultType="java.lang.Boolean">
+        SELECT IF(count(*) = 0, false, true) FROM `dcu` WHERE dcu_no = #{dcu_no}
+    </select>
+
+</mapper>
